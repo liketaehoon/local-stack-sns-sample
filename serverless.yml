@@ -36,12 +36,6 @@ functions:
           filterPolicy:
             status:
               - completed
-    vpc:
-      securityGroupIds:
-      - sg-896781e1
-      - sg-0d3b18e176d6b2b0f
-      subnetIds:
-      - subnet-01be68264a7fe55bb
   trigger:
     handler: functions/main/handler.trigger
     events:
