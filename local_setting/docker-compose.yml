@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  app:
+    container_name: local-stack-sns-sample
+    image: localstack/localstack
+    ports:
+      - 4566:4566
+    environment:
+      SERVICES: sns
+      DEFAULT_REGION: ap-northeast-2
+      DATA_DIR: /tmp/localstack/data
+    volumes:
+      - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
+      - "./localstack-init.d:/docker-entrypoint-initaws.d"
+
+# docker run --rm -it -p 4566:4566 -p 4571:4571 localstack/localstack -e "SERVICES:sns"
+# aws --endpoint-url=http://localhost:4566 sns list-topics
+# aws --endpoint-url=http://localhost:4566 sns create-topic --name my_topic

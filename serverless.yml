@@ -1,0 +1,65 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: iw-job-wash-complete-stat # NOTE: update this with your service name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+provider:
+  name: aws
+  runtime: python3.6
+  stage: ${opt:stage, 'dev'}
+  region: ap-northeast-2
+  memorySize: 1024
+  timeout: 900
+  environment:
+    stage: ${self:provider.stage}
+
+functions:
+  main:
+    handler: functions/main/handler.main
+    events:
+      - sns:
+          arn: arn:aws:sns:ap-northeast-2:000000000000:my-sns
+          filterPolicy:
+            status:
+              - completed
+    vpc:
+      securityGroupIds:
+      - sg-896781e1
+      - sg-0d3b18e176d6b2b0f
+      subnetIds:
+      - subnet-01be68264a7fe55bb
+  trigger:
+    handler: functions/main/handler.trigger
+    events:
+      - http:
+          method: get
+          path: /trigger
+
+plugins:
+  - serverless-python-requirements
+  - serverless-offline
+  - serverless-offline-sns
+
+custom:
+  serverless-offline-sns:
+#    port: 4566 # a free port for the sns server to run on
+    debug: true
+#    sns-endpoint: http://localhost:4566
+#    accountId: 000000000000
+    host: 0.0.0.0 # Enable plugin to listen on every local address
+    sns-subscribe-endpoint: 192.168.35.50 #Host ip address
+    sns-endpoint: http://localhost:4566 # Default localstack sns endpoint

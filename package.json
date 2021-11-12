@@ -1,0 +1,12 @@
+{
+  "name": "local-stack-sns-sample",
+  "description": "",
+  "version": "0.1.0",
+  "dependencies": {
+    "serverless-offline": "^8.2.0",
+    "serverless-offline-sns": "^0.76.0"
+  },
+  "devDependencies": {
+    "serverless-python-requirements": "^5.1.0"
+  }
+}
